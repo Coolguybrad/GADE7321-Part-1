@@ -6,7 +6,7 @@ public class capFlagAI : MonoBehaviour
     // Start is called before the first frame update
 
     private State currentState;
-    [SerializeField] private Transform playerFlag;
+    [SerializeField] private Transform redFlag;
 
     [SerializeField] private Transform player;
 
@@ -21,7 +21,7 @@ public class capFlagAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        ChangeState(new SeekFlag(agent, playerFlag));
+        ChangeState(new SeekFlag(agent, redFlag));
     }
 
     // Update is called once per frame
@@ -68,12 +68,19 @@ public class capFlagAI : MonoBehaviour
 
         public void Enter() 
         {
-            agent.SetDestination(target.position);
+            Vector3 randOffset = new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+            agent.SetDestination(target.position + randOffset);
         }
         public void Run() 
         {
             capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
             ai = agent.gameObject;
+
+            if (Vector3.Distance(agent.transform.position, target.position) < 20)
+            {
+                agent.SetDestination(target.position);
+            }
+
             if (ai.GetComponent<CharacterStats>().HoldingFlag)
             {
                 parentAI.ChangeState(new ReturnFlag(agent, parentAI.homebase));
@@ -117,6 +124,7 @@ public class capFlagAI : MonoBehaviour
 
         private NavMeshAgent agent;
         private Transform target;
+        private GameObject ai;
 
         public ReturnFlag(NavMeshAgent agent, Transform target)
         {
@@ -126,11 +134,25 @@ public class capFlagAI : MonoBehaviour
 
         public void Enter()
         {
-            agent.SetDestination(target.position);
+            Vector3 randOffset = new Vector3(Random.Range(-20, 20), 0, Random.Range(-20, 20));
+            agent.SetDestination(target.position + randOffset);
         }
         public void Run()
         {
+            capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
+            ai = agent.gameObject;
 
+
+
+            if (Vector3.Distance(agent.transform.position, target.position) < 20)
+            {
+                agent.SetDestination(target.position);
+            }
+
+            if (!ai.GetComponent<CharacterStats>().HoldingFlag)
+            {
+                parentAI.ChangeState(new SeekFlag(agent, parentAI.redFlag));
+            }
         }
         public void Exit()
         {
