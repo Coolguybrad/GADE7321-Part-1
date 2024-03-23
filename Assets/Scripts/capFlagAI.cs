@@ -12,6 +12,12 @@ public class capFlagAI : MonoBehaviour
 
     [SerializeField] private NavMeshAgent agent;
 
+    [SerializeField] private Transform homebase;
+
+    
+
+    
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -52,7 +58,8 @@ public class capFlagAI : MonoBehaviour
 
         private NavMeshAgent agent;
         private Transform target;
-
+        private GameObject ai;
+               
         public SeekFlag(NavMeshAgent agent, Transform target) 
         {
             this.agent = agent;
@@ -64,8 +71,13 @@ public class capFlagAI : MonoBehaviour
             agent.SetDestination(target.position);
         }
         public void Run() 
-        { 
-        
+        {
+            capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
+            ai = agent.gameObject;
+            if (ai.GetComponent<CharacterStats>().HoldingFlag)
+            {
+                parentAI.ChangeState(new ReturnFlag(agent, parentAI.homebase));
+            }
         }
         public void Exit() 
         {

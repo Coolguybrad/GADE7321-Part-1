@@ -7,6 +7,7 @@ public class CharacterStats : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private bool isPlayer = false;
     [SerializeField] private bool holdingFlag = false;
+    [SerializeField] private int score = 0;
     public bool HoldingFlag 
     {
         get { return holdingFlag; }
@@ -16,6 +17,12 @@ public class CharacterStats : MonoBehaviour
     {
         get { return isPlayer; }
         set { isPlayer = value; }
+    }
+
+    public int Score
+    {
+        get { return score; }
+        set { score = value; }
     }
 
     void Start()

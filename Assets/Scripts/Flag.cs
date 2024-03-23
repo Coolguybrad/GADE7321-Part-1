@@ -15,12 +15,12 @@ public class Flag : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (playerCapable && other.gameObject.GetComponent<CharacterStats>().IsPlayer)
         {
             other.gameObject.GetComponent<CharacterStats>().HoldingFlag = true;
-            this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y-1000, this.gameObject.transform.position.z);
+            this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - 1000, this.gameObject.transform.position.z);
         }
 
         else if (!playerCapable && !other.gameObject.GetComponent<CharacterStats>().IsPlayer)
@@ -31,6 +31,6 @@ public class Flag : MonoBehaviour
         }
 
         Debug.Log("Collision");
-
     }
+
 }
