@@ -15,6 +15,8 @@ public class playerController : MonoBehaviour
     void Start()
     {
         offset = new Vector3(0, -1, -2);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -30,7 +32,7 @@ public class playerController : MonoBehaviour
 
         yaw += mouseSensitivity * Input.GetAxis("Mouse X");
         pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
-
+        pitch = Mathf.Clamp(pitch, -90f, 90f);
 
         cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
@@ -50,7 +52,7 @@ public class playerController : MonoBehaviour
             Debug.Log(hit.transform.gameObject);
             if (hit.transform.CompareTag("AI"))
             {
-
+                
                 hit.transform.GetComponent<CharacterStats>().Respawn(hit.transform.gameObject);
             }
             else
