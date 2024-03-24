@@ -14,7 +14,11 @@ public class capFlagAI : MonoBehaviour
 
     [SerializeField] private Transform homebase;
 
-
+    public NavMeshAgent Agent
+    {
+        get { return agent; }
+        set { agent = value; }
+    }
 
 
 
@@ -63,6 +67,8 @@ public class capFlagAI : MonoBehaviour
         private GameObject ai;
         private Vector3 randOffset;
 
+
+
         public SeekFlag(NavMeshAgent agent, Transform target)
         {
             this.agent = agent;
@@ -73,20 +79,20 @@ public class capFlagAI : MonoBehaviour
 
         public void Enter()
         {
-            
+
             agent.SetDestination(target.position + randOffset);
         }
         public void Run()
         {
             capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
             ai = agent.gameObject;
-
-            agent.SetDestination(target.position + randOffset);
-            if (Vector3.Distance(agent.transform.position, target.position) > 22)
+            //agent.SetDestination(target.position + randOffset);
+            if (Vector3.Distance(agent.transform.position, target.position) > 25)
             {
-
+                agent.SetDestination(target.position + randOffset);
             }
-            if (Vector3.Distance(agent.transform.position, target.position) < 22)
+
+            if (Vector3.Distance(agent.transform.position, target.position) <= 25)
             {
                 agent.SetDestination(target.position);
             }
@@ -177,7 +183,7 @@ public class capFlagAI : MonoBehaviour
 
 
 
-            if (Vector3.Distance(agent.transform.position, target.position) < 22)
+            if (Vector3.Distance(agent.transform.position, target.position) < 25)
             {
                 agent.SetDestination(target.position);
             }
