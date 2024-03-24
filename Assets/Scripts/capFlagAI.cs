@@ -102,7 +102,7 @@ public class capFlagAI : MonoBehaviour
                 parentAI.ChangeState(new ReturnFlag(agent, parentAI.homebase));
             }
 
-            if (parentAI.player.gameObject.GetComponent<CharacterStats>().HoldingFlag && ai.GetComponent<CharacterStats>().Score <= parentAI.player.gameObject.GetComponent<CharacterStats>().Score)
+            if (parentAI.player.gameObject.GetComponent<CharacterStats>().HoldingFlag && ai.GetComponent<CharacterStats>().Score < parentAI.player.gameObject.GetComponent<CharacterStats>().Score && Vector3.Distance(agent.transform.position, target.position) <= 25)
             {
                 parentAI.ChangeState(new Aggressive(agent, parentAI.player));
             }

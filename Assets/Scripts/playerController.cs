@@ -66,7 +66,7 @@ public class playerController : MonoBehaviour
     {
         if (collision.gameObject == ai)
         {
-
+            collision.transform.GetComponent<CharacterStats>().Respawn(this.transform.gameObject);
         }
     }
 }
