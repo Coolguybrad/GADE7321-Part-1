@@ -8,6 +8,10 @@ public class capFlagAI : MonoBehaviour
     private State currentState;
     [SerializeField] private Transform redFlag;
 
+    [SerializeField] private Transform blueFlag;
+
+    [SerializeField] private Transform blueFlagSpawn;
+
     [SerializeField] private Transform player;
 
     [SerializeField] private NavMeshAgent agent;
@@ -20,6 +24,7 @@ public class capFlagAI : MonoBehaviour
         set { agent = value; }
     }
 
+    
 
 
 
@@ -87,7 +92,15 @@ public class capFlagAI : MonoBehaviour
             capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
             ai = agent.gameObject;
             //agent.SetDestination(target.position + randOffset);
-            if (Vector3.Distance(agent.transform.position, target.position) > 25)
+            if (parentAI.blueFlag.position == parentAI.blueFlagSpawn.position || parentAI.blueFlag.position == new Vector3(parentAI.blueFlag.position.x, parentAI.blueFlag.position.y - 1000, parentAI.blueFlag.position.z))
+            {
+                agent.SetDestination(target.position + randOffset);
+            }
+            else if (parentAI.blueFlag.position != parentAI.blueFlagSpawn.position || parentAI.blueFlag.position != new Vector3(parentAI.blueFlag.position.x, parentAI.blueFlag.position.y - 1000, parentAI.blueFlag.position.z))
+            {
+                agent.SetDestination(parentAI.blueFlag.position);
+            }
+            else if (Vector3.Distance(agent.transform.position, target.position) > 25)
             {
                 agent.SetDestination(target.position + randOffset);
             }
@@ -97,12 +110,13 @@ public class capFlagAI : MonoBehaviour
                 agent.SetDestination(target.position);
             }
 
+
             if (ai.GetComponent<CharacterStats>().HoldingFlag)
             {
                 parentAI.ChangeState(new ReturnFlag(agent, parentAI.homebase));
             }
 
-            if (parentAI.player.gameObject.GetComponent<CharacterStats>().HoldingFlag && ai.GetComponent<CharacterStats>().Score < parentAI.player.gameObject.GetComponent<CharacterStats>().Score && Vector3.Distance(agent.transform.position, target.position) <= 25)
+            if (parentAI.player.gameObject.GetComponent<CharacterStats>().HoldingFlag && ai.GetComponent<CharacterStats>().Score < parentAI.player.gameObject.GetComponent<CharacterStats>().Score)
             {
                 parentAI.ChangeState(new Aggressive(agent, parentAI.player));
             }

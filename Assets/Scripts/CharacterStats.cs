@@ -39,7 +39,10 @@ public class CharacterStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Respawn(player);
+        }
     }
 
     public void Respawn(GameObject respawnee)
@@ -50,7 +53,7 @@ public class CharacterStats : MonoBehaviour
         {
 
             //respawnee.gameObject.GetComponent<CharacterStats>().holdingFlag = false;
-            designatedFlag.transform.position = new Vector3(respawnee.transform.position.x, respawnee.transform.position.y - 0.7f, respawnee.transform.position.z);
+            respawnee.gameObject.GetComponent<CharacterStats>().designatedFlag.transform.position = new Vector3(respawnee.transform.position.x, respawnee.transform.position.y - 0.7f, respawnee.transform.position.z);
 
         }
         ParticleSystem particleSystem = Instantiate(particles, respawnee.transform.position, Quaternion.identity);
