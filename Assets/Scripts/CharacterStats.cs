@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
@@ -8,7 +6,14 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private bool isPlayer = false;
     [SerializeField] private bool holdingFlag = false;
     [SerializeField] private int score = 0;
-    public bool HoldingFlag 
+    [SerializeField] private Transform respawn;
+    [SerializeField] private GameObject blueFlag;
+    [SerializeField] private GameObject redFlag;
+
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject ai;
+
+    public bool HoldingFlag
     {
         get { return holdingFlag; }
         set { holdingFlag = value; }
@@ -27,13 +32,38 @@ public class CharacterStats : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Respawn(player);
+        }
+    }
+
+    public void Respawn(GameObject respawnee)
+    {
+        if (respawnee.gameObject.GetComponent<CharacterStats>().holdingFlag)
+        {
+            if (isPlayer && holdingFlag)
+            {
+                holdingFlag = false;
+                blueFlag.transform.position = new Vector3(respawnee.transform.position.x, respawnee.transform.position.y -0.7f, respawnee.transform.position.z);
+                this.gameObject.transform.position = respawn.position;
+
+            }
+            else if (!isPlayer && holdingFlag)
+            {
+                holdingFlag = false;
+                redFlag.transform.position = new Vector3(respawnee.transform.position.x, respawnee.transform.position.y - 0.7f, respawnee.transform.position.z);
+                this.gameObject.transform.position = respawn.position;
+            }
+        }
+
+
     }
 
 }

@@ -4,6 +4,12 @@ public class Flag : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] bool playerCapable = false;
+    [SerializeField] Transform flagRespawnLocation;
+    public Transform FlagRespawnLocation
+    {
+        get { return flagRespawnLocation; }
+        set { flagRespawnLocation = value; }
+    }
     void Start()
     {
 
@@ -17,6 +23,7 @@ public class Flag : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (playerCapable && other.gameObject.GetComponent<CharacterStats>().IsPlayer)
         {
             other.gameObject.GetComponent<CharacterStats>().HoldingFlag = true;
@@ -29,6 +36,8 @@ public class Flag : MonoBehaviour
             this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - 1000, this.gameObject.transform.position.z);
             Debug.Log("Bot Collision");
         }
+
+
 
         Debug.Log("Collision");
     }

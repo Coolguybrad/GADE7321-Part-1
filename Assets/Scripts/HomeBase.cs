@@ -25,14 +25,14 @@ public class HomeBase : MonoBehaviour
         {
             other.gameObject.GetComponent<CharacterStats>().Score += 1;
             other.gameObject.GetComponent<CharacterStats>().HoldingFlag = false;
-            blueFlag.gameObject.transform.position = new Vector3(blueFlag.gameObject.transform.position.x, blueFlag.gameObject.transform.position.y + 1000, blueFlag.gameObject.transform.position.z);
+            blueFlag.gameObject.transform.position = blueFlag.gameObject.GetComponent<Flag>().FlagRespawnLocation.position;
         }
 
         else if (!playerCapable && !other.gameObject.GetComponent<CharacterStats>().IsPlayer && other.gameObject.GetComponent<CharacterStats>().HoldingFlag)
         {
             other.gameObject.GetComponent<CharacterStats>().Score += 1;
             other.gameObject.GetComponent<CharacterStats>().HoldingFlag = false;
-            redFlag.gameObject.transform.position = new Vector3(redFlag.gameObject.transform.position.x, redFlag.gameObject.transform.position.y + 1000, redFlag.gameObject.transform.position.z);
+            redFlag.gameObject.transform.position = redFlag.gameObject.GetComponent<Flag>().FlagRespawnLocation.position;
 
         }
 

@@ -10,6 +10,8 @@ public class playerController : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     [SerializeField] private Camera cam;
+    [SerializeField] private GameObject ai;
+    [SerializeField] private float attackRange;
 
     void Start()
     {
@@ -18,7 +20,7 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
-        // Player movement
+        
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
@@ -26,11 +28,32 @@ public class playerController : MonoBehaviour
         movement = cam.transform.rotation * movement;
         transform.Translate(movement * speed * Time.deltaTime, Space.World);
 
-        // Mouse look
+        
         yaw += mouseSensitivity * Input.GetAxis("Mouse X");
         pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
 
-        // Apply rotation to the camera instead of the player
+        
         cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+    }
+
+    public void Attack() 
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, attackRange))
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                
+                
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == ai)
+        {
+
+        }
     }
 }
