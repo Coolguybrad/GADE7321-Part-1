@@ -14,6 +14,8 @@ public class capFlagAI : MonoBehaviour
 
     [SerializeField] private Transform homebase;
 
+    
+
 
 
 
@@ -95,7 +97,7 @@ public class capFlagAI : MonoBehaviour
             //    parentAI.ChangeState(new ReturnFlag(agent, parentAI.homebase));
             //}
 
-
+            Debug.Log(parentAI.currentState);
         }
         public void Exit()
         {
@@ -125,6 +127,7 @@ public class capFlagAI : MonoBehaviour
         {
             capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
             ai = agent.gameObject;
+            agent.SetDestination(target.position);
             if (!parentAI.player.gameObject.GetComponent<CharacterStats>().HoldingFlag)
             {
                 parentAI.ChangeState(new SeekFlag(agent, parentAI.redFlag));
@@ -133,7 +136,7 @@ public class capFlagAI : MonoBehaviour
             //{
             //    parentAI.ChangeState(new SeekFlag(agent, parentAI.homebase));
             //}
-
+            Debug.Log(parentAI.currentState);
         }
         public void Exit()
         {
@@ -176,7 +179,7 @@ public class capFlagAI : MonoBehaviour
                 parentAI.ChangeState(new SeekFlag(agent, parentAI.redFlag));
             }
 
-
+            Debug.Log(parentAI.currentState);
         }
         public void Exit()
         {
@@ -214,7 +217,7 @@ public class capFlagAI : MonoBehaviour
             {
                 agent.SetDestination(target.position);
             }
-
+            Debug.Log(parentAI.currentState);
         }
         public void Exit()
         {
