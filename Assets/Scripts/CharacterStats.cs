@@ -9,6 +9,8 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private Transform respawn;
     [SerializeField] private GameObject designatedFlag;
 
+    [SerializeField] private ParticleSystem particles;
+
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject ai;
 
@@ -54,6 +56,9 @@ public class CharacterStats : MonoBehaviour
             designatedFlag.transform.position = new Vector3(respawnee.transform.position.x, respawnee.transform.position.y - 0.7f, respawnee.transform.position.z);
 
         }
+        ParticleSystem particleSystem = Instantiate(particles, respawnee.transform.position, Quaternion.identity);
+        particleSystem.Play();
+        Destroy(particleSystem.gameObject, 2f);
         respawnee.gameObject.GetComponent<CharacterStats>().holdingFlag = false;
         respawnee.gameObject.transform.position = respawnee.gameObject.GetComponent<CharacterStats>().respawn.position;
 
