@@ -10,6 +10,7 @@ public class playerController : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject ai;
     [SerializeField] private float attackRange;
+    [SerializeField] private ParticleSystem particles;
 
     void Start()
     {
@@ -51,6 +52,12 @@ public class playerController : MonoBehaviour
             {
 
                 hit.transform.GetComponent<CharacterStats>().Respawn(hit.transform.gameObject);
+            }
+            else
+            {
+                ParticleSystem particleSystem = Instantiate(particles, hit.transform.position, Quaternion.identity);
+                particleSystem.Play();
+                Destroy(particleSystem.gameObject, 2f);
             }
         }
     }
