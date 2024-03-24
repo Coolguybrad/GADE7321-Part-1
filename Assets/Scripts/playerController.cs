@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class playerController : MonoBehaviour
 {
@@ -20,7 +18,7 @@ public class playerController : MonoBehaviour
 
     void Update()
     {
-        
+
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
@@ -28,23 +26,31 @@ public class playerController : MonoBehaviour
         movement = cam.transform.rotation * movement;
         transform.Translate(movement * speed * Time.deltaTime, Space.World);
 
-        
+
         yaw += mouseSensitivity * Input.GetAxis("Mouse X");
         pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
 
-        
+
         cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
+
     }
 
-    public void Attack() 
+    public void Attack()
     {
         RaycastHit hit;
+
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, attackRange))
         {
-            if (hit.transform.CompareTag("Enemy"))
+            Debug.Log(hit.transform.gameObject);
+            if (hit.transform.CompareTag("AI"))
             {
-                
-                
+
+                hit.transform.GetComponent<CharacterStats>().Respawn(hit.transform.gameObject);
             }
         }
     }

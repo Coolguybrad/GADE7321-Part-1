@@ -167,7 +167,7 @@ public class capFlagAI : MonoBehaviour
             capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
             ai = agent.gameObject;
 
-
+            
 
             if (Vector3.Distance(agent.transform.position, target.position) < 22)
             {

@@ -23,19 +23,22 @@ public class Flag : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (playerCapable && other.gameObject.GetComponent<CharacterStats>().IsPlayer)
+        if (other.tag == "Player" || other.tag == "AI")
         {
-            other.gameObject.GetComponent<CharacterStats>().HoldingFlag = true;
-            this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - 1000, this.gameObject.transform.position.z);
+            if (playerCapable && other.gameObject.GetComponent<CharacterStats>().IsPlayer)
+            {
+                other.gameObject.GetComponent<CharacterStats>().HoldingFlag = true;
+                this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - 1000, this.gameObject.transform.position.z);
+            }
+
+            else if (!playerCapable && !other.gameObject.GetComponent<CharacterStats>().IsPlayer)
+            {
+                other.gameObject.GetComponent<CharacterStats>().HoldingFlag = true;
+                this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - 1000, this.gameObject.transform.position.z);
+                Debug.Log("Bot Collision");
+            }
         }
 
-        else if (!playerCapable && !other.gameObject.GetComponent<CharacterStats>().IsPlayer)
-        {
-            other.gameObject.GetComponent<CharacterStats>().HoldingFlag = true;
-            this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y - 1000, this.gameObject.transform.position.z);
-            Debug.Log("Bot Collision");
-        }
 
 
 
