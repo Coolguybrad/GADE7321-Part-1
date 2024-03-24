@@ -4,32 +4,33 @@ using System.Collections.Generic;
 
 public class playerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    //Camera
-    [SerializeField] private Camera playerCam;
-    [SerializeField] private float mouseSensitivity = 1f;
-    [SerializeField] private float rotX = 0;
-    //movement speeds
-    [SerializeField] private bool canWalk = true;
-    [SerializeField] private float walk = 5f;
-    [SerializeField] private float sprint = 10f;
-    //jump height
-    [SerializeField] private float jump = 5f;
-
-    Vector3 movementDirection = Vector3.zero;
-
-    private CharacterController charController;
+    [SerializeField] private float speed = 5.0f;
+    [SerializeField] private float mouseSensitivity = 2.0f;
+    private Vector3 offset;
+    private float yaw = 0.0f;
+    private float pitch = 0.0f;
+    [SerializeField] private Camera cam;
 
     void Start()
     {
-        charController = GetComponent<CharacterController>();
-        
+        offset = new Vector3(0, -1, -2);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Vector3 moveForward = transform.TransformDirection(Vector3.forward);
-        Vector3 strafeRight = transform.TransformDirection(Vector3.right);
+        // Player movement
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        movement = cam.transform.rotation * movement;
+        transform.Translate(movement * speed * Time.deltaTime, Space.World);
+
+        // Mouse look
+        yaw += mouseSensitivity * Input.GetAxis("Mouse X");
+        pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+
+        // Apply rotation to the camera instead of the player
+        cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
     }
 }
