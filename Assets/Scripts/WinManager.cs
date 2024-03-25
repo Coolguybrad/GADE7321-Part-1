@@ -11,6 +11,7 @@ public class WinManager : MonoBehaviour
     [SerializeField] private GameObject ai;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject panel;
+    [SerializeField] private TMP_Text scoreText;
     void Start()
     {
         
@@ -19,6 +20,8 @@ public class WinManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        scoreText.text = "SCORE:\nPlayer " + player.GetComponent<CharacterStats>().Score + "\nAI " + ai.GetComponent<CharacterStats>().Score;
 
         if (ai.GetComponent<CharacterStats>().Score == 5)
         {
