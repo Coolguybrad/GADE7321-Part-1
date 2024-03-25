@@ -8,6 +8,8 @@ public class capFlagAI : MonoBehaviour
     private State currentState;
     [SerializeField] private Transform redFlag;
 
+    [SerializeField] private Transform redFlagSpawn;
+
     [SerializeField] private Transform blueFlag;
 
     [SerializeField] private Transform blueFlagSpawn;
@@ -18,13 +20,15 @@ public class capFlagAI : MonoBehaviour
 
     [SerializeField] private Transform homebase;
 
+    [SerializeField] private float distance;
+
     public NavMeshAgent Agent
     {
         get { return agent; }
         set { agent = value; }
     }
 
-    
+
 
 
 
@@ -92,7 +96,23 @@ public class capFlagAI : MonoBehaviour
             capFlagAI parentAI = agent.gameObject.GetComponent<capFlagAI>();
             ai = agent.gameObject;
             //agent.SetDestination(target.position + randOffset);
-            if (parentAI.blueFlag.position == parentAI.blueFlagSpawn.position || parentAI.blueFlag.position == new Vector3(parentAI.blueFlag.position.x, parentAI.blueFlag.position.y - 1000, parentAI.blueFlag.position.z))
+            parentAI.distance = Vector3.Distance(agent.transform.position, parentAI.player.position);
+
+
+            if (Vector3.Distance(agent.transform.position, target.position) <= 25)
+            {
+                agent.SetDestination(target.position);
+            }
+            else if (Vector3.Distance(agent.transform.position, parentAI.player.position) < 5)
+            {
+                agent.SetDestination(parentAI.player.position);
+
+            }
+            else if (Vector3.Distance(agent.transform.position, parentAI.player.position) >= 5)
+            {
+                agent.SetDestination(target.position);
+            }
+            else if (parentAI.blueFlag.position == parentAI.blueFlagSpawn.position || parentAI.blueFlag.position == new Vector3(parentAI.blueFlag.position.x, parentAI.blueFlag.position.y - 1000, parentAI.blueFlag.position.z))
             {
                 agent.SetDestination(target.position + randOffset);
             }
@@ -105,10 +125,6 @@ public class capFlagAI : MonoBehaviour
                 agent.SetDestination(target.position + randOffset);
             }
 
-            if (Vector3.Distance(agent.transform.position, target.position) <= 25)
-            {
-                agent.SetDestination(target.position);
-            }
 
 
             if (ai.GetComponent<CharacterStats>().HoldingFlag)
@@ -160,6 +176,7 @@ public class capFlagAI : MonoBehaviour
             {
                 parentAI.ChangeState(new SeekFlag(agent, parentAI.redFlag));
             }
+
             //else if (!parentAI.player.gameObject.GetComponent<CharacterStats>().HoldingFlag && ai.GetComponent<CharacterStats>().HoldingFlag)
             //{
             //    parentAI.ChangeState(new SeekFlag(agent, parentAI.homebase));
@@ -201,6 +218,16 @@ public class capFlagAI : MonoBehaviour
             {
                 agent.SetDestination(target.position);
             }
+            else if (Vector3.Distance(agent.transform.position, parentAI.player.position) < 5)
+            {
+                agent.SetDestination(parentAI.player.position);
+
+            }
+            else if (Vector3.Distance(agent.transform.position, parentAI.player.position) >= 5)
+            {
+                agent.SetDestination(target.position);
+            }
+
 
             if (!ai.GetComponent<CharacterStats>().HoldingFlag)
             {

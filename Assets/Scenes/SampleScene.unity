@@ -4267,11 +4267,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   redFlag: {fileID: 4981512094448671642}
+  redFlagSpawn: {fileID: 837251314}
   blueFlag: {fileID: 6305727354895757863}
   blueFlagSpawn: {fileID: 490772050}
   player: {fileID: 229117363}
   agent: {fileID: 1712572667}
   homebase: {fileID: 1389530076}
+  distance: 0
 --- !u!136 &1712572663
 CapsuleCollider:
   m_ObjectHideFlags: 0
