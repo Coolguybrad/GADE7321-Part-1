@@ -592,6 +592,9 @@ MonoBehaviour:
   ai: {fileID: 1712572660}
   attackRange: 5
   particles: {fileID: 3915509446774637729, guid: c495dfa3dbc8797419f19b513b9bebdc, type: 3}
+  attackCooldown: 5
+  canAttack: 1
+  crosshair: {fileID: 1914699232}
 --- !u!208 &229117365
 NavMeshObstacle:
   m_ObjectHideFlags: 0

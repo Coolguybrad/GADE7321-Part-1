@@ -1,4 +1,7 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour
 {
@@ -11,6 +14,11 @@ public class playerController : MonoBehaviour
     [SerializeField] private GameObject ai;
     [SerializeField] private float attackRange;
     [SerializeField] private ParticleSystem particles;
+
+    [SerializeField] private float attackCooldown = 5f;
+    [SerializeField] private bool canAttack = true;
+
+    [SerializeField] private Image crosshair;
 
     void Start()
     {
@@ -38,12 +46,12 @@ public class playerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Attack();
+            StartCoroutine(Attack());
         }
 
     }
 
-    public void Attack()
+    IEnumerator Attack()
     {
         RaycastHit hit;
 
@@ -62,7 +70,42 @@ public class playerController : MonoBehaviour
                 Destroy(particleSystem.gameObject, 2f);
             }
         }
+        canAttack = false;
+        StartCoroutine(blinkCrosshair());
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
+
+    IEnumerator blinkCrosshair() 
+    {
+        while (!canAttack)
+        {
+            crosshair.enabled = !crosshair.enabled;
+            yield return new WaitForSeconds(0.5f);
+        }
+        crosshair.enabled = true;
+    }
+
+    //public void Attack()
+    //{
+    //    RaycastHit hit;
+
+    //    if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, attackRange))
+    //    {
+    //        Debug.Log(hit.transform.gameObject);
+    //        if (hit.transform.CompareTag("AI"))
+    //        {
+
+    //            hit.transform.GetComponent<CharacterStats>().Respawn(hit.transform.gameObject);
+    //        }
+    //        else
+    //        {
+    //            ParticleSystem particleSystem = Instantiate(particles, hit.transform.position, Quaternion.identity);
+    //            particleSystem.Play();
+    //            Destroy(particleSystem.gameObject, 2f);
+    //        }
+    //    }
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
