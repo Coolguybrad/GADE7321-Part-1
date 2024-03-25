@@ -1,19 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField] private GameObject menuPanel;
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            menuPanel.SetActive(!menuPanel.activeInHierarchy);
+
+
+        }
         
     }
 
@@ -22,11 +29,32 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void Restart() 
+    public void Restart()
     {
-        Time.timeScale = 1;
+
         string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
-        
+
+    }
+
+    public void Play()
+    {
+        SceneManager.LoadScene("MainGame");
+    }
+    public void HowToPlay()
+    {
+        menuPanel.SetActive(true);
+    }
+
+    public void Back()
+    {
+
+        menuPanel.SetActive(false);
+    }
+
+    public void MainMenu()
+    {
+
+        SceneManager.LoadScene("MainMenu");
     }
 }

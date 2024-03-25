@@ -1,6 +1,5 @@
-using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class playerController : MonoBehaviour
@@ -15,6 +14,8 @@ public class playerController : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private ParticleSystem particles;
 
+    [SerializeField] private GameObject menu;
+
     [SerializeField] private float attackCooldown = 5f;
     [SerializeField] private bool canAttack = true;
 
@@ -22,15 +23,33 @@ public class playerController : MonoBehaviour
 
     void Start()
     {
-
+        if (menu.activeInHierarchy)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
         Time.timeScale = 1;
         offset = new Vector3(0, -1, -2);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        
     }
 
     void Update()
     {
+        if (menu.activeInHierarchy)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
@@ -46,7 +65,7 @@ public class playerController : MonoBehaviour
 
         cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
-        if (Input.GetMouseButtonDown(0) && canAttack)
+        if (Input.GetMouseButtonDown(0) && canAttack && !menu.activeInHierarchy)
         {
             StartCoroutine(Attack());
         }
@@ -62,7 +81,7 @@ public class playerController : MonoBehaviour
             Debug.Log(hit.transform.gameObject);
             if (hit.transform.CompareTag("AI"))
             {
-                
+
                 hit.transform.GetComponent<CharacterStats>().Respawn(hit.transform.gameObject);
             }
             else
@@ -78,7 +97,7 @@ public class playerController : MonoBehaviour
         canAttack = true;
     }
 
-    IEnumerator blinkCrosshair() 
+    IEnumerator blinkCrosshair()
     {
         while (!canAttack)
         {
