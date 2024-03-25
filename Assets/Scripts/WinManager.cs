@@ -22,6 +22,9 @@ public class WinManager : MonoBehaviour
 
         if (ai.GetComponent<CharacterStats>().Score == 5)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             winText.color = Color.red;
             winText.text = "RED WINS";
             panel.SetActive(true);
@@ -30,6 +33,9 @@ public class WinManager : MonoBehaviour
 
         if (player.GetComponent<CharacterStats>().Score == 5)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             winText.color = Color.blue;
             winText.text = "BLUE WINS";
             panel.SetActive(true);

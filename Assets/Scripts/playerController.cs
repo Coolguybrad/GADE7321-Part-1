@@ -22,6 +22,8 @@ public class playerController : MonoBehaviour
 
     void Start()
     {
+
+        Time.timeScale = 1;
         offset = new Vector3(0, -1, -2);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -44,7 +46,7 @@ public class playerController : MonoBehaviour
 
         cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canAttack)
         {
             StartCoroutine(Attack());
         }
@@ -81,7 +83,7 @@ public class playerController : MonoBehaviour
         while (!canAttack)
         {
             crosshair.enabled = !crosshair.enabled;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
         }
         crosshair.enabled = true;
     }
