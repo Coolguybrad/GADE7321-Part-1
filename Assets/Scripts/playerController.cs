@@ -35,7 +35,7 @@ public class playerController : MonoBehaviour
         }
         Time.timeScale = 1;
         offset = new Vector3(0, -1, -2);
-        
+
     }
 
     void Update()
@@ -49,21 +49,26 @@ public class playerController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+
+            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+            Quaternion rotation = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
+
+            movement = rotation * movement;
+            transform.Translate(movement * speed * Time.deltaTime, Space.World);
+
+
+            yaw += mouseSensitivity * Input.GetAxis("Mouse X");
+            pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+            pitch = Mathf.Clamp(pitch, -90f, 90f);
+
+            cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
         }
 
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        movement = cam.transform.rotation * movement;
-        transform.Translate(movement * speed * Time.deltaTime, Space.World);
 
 
-        yaw += mouseSensitivity * Input.GetAxis("Mouse X");
-        pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
-        pitch = Mathf.Clamp(pitch, -90f, 90f);
-
-        cam.transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
         if (Input.GetMouseButtonDown(0) && canAttack && !menu.activeInHierarchy)
         {
@@ -86,7 +91,7 @@ public class playerController : MonoBehaviour
             }
             else
             {
-                ParticleSystem particleSystem = Instantiate(particles, hit.transform.position, Quaternion.identity);
+                ParticleSystem particleSystem = Instantiate(particles, hit.point, Quaternion.identity);
                 particleSystem.Play();
                 Destroy(particleSystem.gameObject, 2f);
             }
